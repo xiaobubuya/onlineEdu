@@ -18,4 +18,6 @@ public interface ChapterService extends IService<Chapter> {
     List<ChapterVo> nestedList(String courseId);
 
     boolean removeChapterById(String id);
+
+    boolean removeByCourseId(String courseId);
 }

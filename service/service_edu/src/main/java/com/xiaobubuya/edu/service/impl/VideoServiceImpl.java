@@ -74,4 +74,12 @@ public class VideoServiceImpl extends ServiceImpl<VideoMapper, Video> implements
         Integer result = baseMapper.deleteById(id);
         return null != result && result > 0;
     }
+
+    @Override
+    public boolean removeByCourseId(String courseId) {
+        QueryWrapper<Video> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id", courseId);
+        Integer count = baseMapper.delete(queryWrapper);
+        return null != count && count > 0;
+    }
 }

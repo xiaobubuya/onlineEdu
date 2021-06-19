@@ -1,6 +1,10 @@
 package com.xiaobubuya.edu.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaobubuya.edu.entity.Course;
+import com.xiaobubuya.edu.entity.course.CourseQuery;
+import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 import com.xiaobubuya.edu.entity.vo.CourseInfoVo;
 import com.xiaobubuya.edu.service.CourseService;
 import com.xiaobubuya.utils.Result;
@@ -10,6 +14,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -62,6 +68,60 @@ public class CourseController {
 
         courseService.updateCourseInfoById(courseInfoVo);
         return Result.ok();
+    }
+
+    @ApiOperation(value = "根据ID获取课程发布信息")
+    @GetMapping("course-publish-info/{id}")
+    public Result getCoursePublishVoById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+
+        CoursePublishVo courseInfoForm = courseService.getCoursePublishVoById(id);
+        return Result.ok().data("item", courseInfoForm);
+    }
+
+    @ApiOperation(value = "根据id发布课程")
+    @PutMapping("publish-course/{id}")
+    public Result publishCourseById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+        return courseService.publishCourseById(id)?Result.ok().message("发布成功！"):Result.error().message("发布失败！");
+    }
+
+    @ApiOperation(value = "分页课程列表")
+    @GetMapping("{page}/{limit}")
+    public Result pageQuery(
+            @ApiParam(name = "page", value = "当前页码", required = true)
+            @PathVariable Long page,
+
+            @ApiParam(name = "limit", value = "每页记录数", required = true)
+            @PathVariable Long limit,
+
+            @ApiParam(name = "courseQuery", value = "查询对象", required = false)
+                    CourseQuery courseQuery){
+
+        Page<Course> pageParam = new Page<>(page, limit);
+
+        courseService.pageQuery(pageParam, courseQuery);
+        List<Course> records = pageParam.getRecords();
+
+        long total = pageParam.getTotal();
+
+        return  Result.ok().data("total", total).data("rows", records);
+    }
+
+    @ApiOperation(value = "根据ID删除课程")
+    @DeleteMapping("{id}")
+    public Result removeById(
+            @ApiParam(name = "id", value = "课程ID", required = true)
+            @PathVariable String id){
+
+        boolean result = courseService.removeCourseById(id);
+        if(result){
+            return Result.ok();
+        }else{
+            return Result.error().message("删除失败");
+        }
     }
 }
 

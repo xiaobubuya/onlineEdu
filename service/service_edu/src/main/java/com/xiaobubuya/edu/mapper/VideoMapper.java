@@ -2,7 +2,6 @@ package com.xiaobubuya.edu.mapper;
 
 import com.xiaobubuya.edu.entity.Video;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 
 /**
  * <p>
@@ -13,5 +12,5 @@ import com.xiaobubuya.edu.entity.video.CoursePublishVo;
  * @since 2021-06-17
  */
 public interface VideoMapper extends BaseMapper<Video> {
-    CoursePublishVo selectCoursePublishVoById(String id);
+
 }
