@@ -1,5 +1,6 @@
 package com.xiaobubuya.edu.entity.video;
 
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,6 +23,9 @@ public class VideoInfoVo {
 
 	@ApiModelProperty(value = "视频资源")
 	private String videoSourceId;
+
+	@ApiModelProperty(value = "视频名称")
+	private String videoOriginalName;
 
 	@ApiModelProperty(value = "显示排序")
 	private Integer sort;
