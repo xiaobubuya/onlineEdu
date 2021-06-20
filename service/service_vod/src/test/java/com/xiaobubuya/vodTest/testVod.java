@@ -17,7 +17,7 @@ public class testVod {
     public static void main(String[] args) throws Exception {
         // 根据视频id获取视频播放凭证
 //        getPlayAuth();
-        testUploadVideo("LTAI5t9fnkGmkb1RjWQuWyXW","gPyk34jHflRZlKiwyZVcuipBnNSkjI","hahah","G:/666.mp4");
+        testUploadVideo("","","hahah","G:/666.mp4");
 
 
     }
@@ -88,7 +88,7 @@ public class testVod {
 
     public static void getPlayAuth() throws Exception{
         // 创建初始化对象
-        DefaultAcsClient client = InitObject.initVodClient("LTAI5t9fnkGmkb1RjWQuWyXW","gPyk34jHflRZlKiwyZVcuipBnNSkjI");
+        DefaultAcsClient client = InitObject.initVodClient("","");
 
         //创建获取视频地址request和response
         GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
@@ -106,7 +106,7 @@ public class testVod {
     public static void getPlayUrl() throws Exception{
         // 1、根据视频id获取视频播放地址
         // 创建初始化对象
-        DefaultAcsClient client = InitObject.initVodClient("LTAI5t9fnkGmkb1RjWQuWyXW","gPyk34jHflRZlKiwyZVcuipBnNSkjI");
+        DefaultAcsClient client = InitObject.initVodClient("","");
 
         //创建获取视频地址request和response
         GetPlayInfoResponse response = new GetPlayInfoResponse();
