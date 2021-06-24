@@ -3,9 +3,12 @@ package com.xiaobubuya.edu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaobubuya.edu.entity.Course;
+import com.xiaobubuya.edu.entity.chapter.ChapterVo;
 import com.xiaobubuya.edu.entity.course.CourseQuery;
+import com.xiaobubuya.edu.entity.front.CourseWebVo;
 import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 import com.xiaobubuya.edu.entity.vo.CourseInfoVo;
+import com.xiaobubuya.edu.service.ChapterService;
 import com.xiaobubuya.edu.service.CourseService;
 import com.xiaobubuya.utils.Result;
 import io.swagger.annotations.Api;
@@ -122,6 +125,24 @@ public class CourseController {
         }else{
             return Result.error().message("删除失败");
         }
+    }
+
+    @Autowired
+    private ChapterService chapterService;
+
+    @ApiOperation(value = "前台页面展示根据ID查询课程")
+    @GetMapping(value = "getCourseFront/{courseId}")
+    public Result getCourseFront(
+            @ApiParam(name = "courseId", value = "课程ID", required = true)
+            @PathVariable String courseId){
+
+        //查询课程信息和讲师信息
+        CourseWebVo courseWebVo = courseService.selectInfoWebById(courseId);
+
+        //查询当前课程的章节信息
+        List<ChapterVo> chapterVoList = chapterService.nestedList(courseId);
+
+        return Result.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList);
     }
 }
 

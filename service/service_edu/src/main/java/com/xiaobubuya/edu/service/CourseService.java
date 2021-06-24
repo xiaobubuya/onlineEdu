@@ -4,8 +4,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaobubuya.edu.entity.Course;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaobubuya.edu.entity.course.CourseQuery;
+import com.xiaobubuya.edu.entity.front.CourseQueryVo;
+import com.xiaobubuya.edu.entity.front.CourseWebVo;
 import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 import com.xiaobubuya.edu.entity.vo.CourseInfoVo;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,4 +39,21 @@ public interface CourseService extends IService<Course> {
     void pageQuery(Page<Course> pageParam, CourseQuery courseQuery);
 
     boolean removeCourseById(String id);
+
+    List<Course> selectByTeacherId(String id);
+
+    Map<String, Object> pageListWeb(Page<Course> pageParam, CourseQueryVo courseQuery);
+
+    /**
+     * 获取课程信息
+     * @param id
+     * @return
+     */
+    CourseWebVo selectInfoWebById(String id);
+
+    /**
+     * 更新课程浏览数
+     * @param id
+     */
+    void updatePageViewCount(String id);
 }

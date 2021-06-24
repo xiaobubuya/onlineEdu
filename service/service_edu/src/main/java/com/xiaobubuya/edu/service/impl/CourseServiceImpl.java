@@ -6,6 +6,8 @@ import com.xiaobubuya.edu.entity.Course;
 import com.xiaobubuya.edu.entity.CourseDescription;
 import com.xiaobubuya.edu.entity.Video;
 import com.xiaobubuya.edu.entity.course.CourseQuery;
+import com.xiaobubuya.edu.entity.front.CourseQueryVo;
+import com.xiaobubuya.edu.entity.front.CourseWebVo;
 import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 import com.xiaobubuya.edu.entity.vo.CourseInfoVo;
 import com.xiaobubuya.edu.mapper.CourseMapper;
@@ -19,6 +21,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -166,6 +172,98 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
 
         Integer result = baseMapper.deleteById(id);
         return null != result && result > 0;
+    }
+
+    /**
+    * @Description: 根据讲师id查询当前讲师的课程列表
+    * @Author: xiaobubuya
+    * @Date 2021/6/24
+    */
+    @Override
+    public List<Course> selectByTeacherId(String teacherId) {
+
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<Course>();
+
+        queryWrapper.eq("teacher_id", teacherId);
+        //按照最后更新时间倒序排列
+        queryWrapper.orderByDesc("gmt_modified");
+
+        List<Course> courses = baseMapper.selectList(queryWrapper);
+        return courses;
+    }
+
+    /**
+    * @Description: 条件查询课程列表
+    * @Author: xiaobubuya
+    * @Date 2021/6/24
+    */
+    @Override
+    public Map<String, Object> pageListWeb(Page<Course> pageParam, CourseQueryVo courseQuery) {
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(courseQuery.getSubjectParentId())) {
+            queryWrapper.eq("subject_parent_id", courseQuery.getSubjectParentId());
+        }
+
+        if (!StringUtils.isEmpty(courseQuery.getSubjectId())) {
+            queryWrapper.eq("subject_id", courseQuery.getSubjectId());
+        }
+
+        if (!StringUtils.isEmpty(courseQuery.getBuyCountSort())) {
+            queryWrapper.orderByDesc("buy_count");
+        }
+
+        if (!StringUtils.isEmpty(courseQuery.getGmtCreateSort())) {
+            queryWrapper.orderByDesc("gmt_create");
+        }
+
+        if (!StringUtils.isEmpty(courseQuery.getPriceSort())) {
+            queryWrapper.orderByDesc("price");
+        }
+
+        baseMapper.selectPage(pageParam, queryWrapper);
+
+        List<Course> records = pageParam.getRecords();
+        long current = pageParam.getCurrent();
+        long pages = pageParam.getPages();
+        long size = pageParam.getSize();
+        long total = pageParam.getTotal();
+        boolean hasNext = pageParam.hasNext();
+        boolean hasPrevious = pageParam.hasPrevious();
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("items", records);
+        map.put("current", current);
+        map.put("pages", pages);
+        map.put("size", size);
+        map.put("total", total);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
+
+        return map;
+    }
+
+
+    /**
+    * @Description: 获取课程信息
+    * @Author: xiaobubuya
+    * @Date 2021/6/24
+    */
+    @Override
+    public CourseWebVo selectInfoWebById(String id) {
+        this.updatePageViewCount(id);
+        return baseMapper.selectInfoWebById(id);
+    }
+
+    /**
+    * @Description: 更新课程浏览数
+    * @Author: xiaobubuya
+    * @Date 2021/6/24
+    */
+    @Override
+    public void updatePageViewCount(String id) {
+        Course course = baseMapper.selectById(id);
+        course.setViewCount(course.getViewCount() + 1);
+        baseMapper.updateById(course);
     }
 
 

@@ -2,6 +2,7 @@ package com.xiaobubuya.edu.mapper;
 
 import com.xiaobubuya.edu.entity.Course;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xiaobubuya.edu.entity.front.CourseWebVo;
 import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 
 /**
@@ -14,4 +15,6 @@ import com.xiaobubuya.edu.entity.video.CoursePublishVo;
  */
 public interface CourseMapper extends BaseMapper<Course> {
     CoursePublishVo getCoursePublishVoById(String id);
+
+    CourseWebVo selectInfoWebById(String courseId);
 }

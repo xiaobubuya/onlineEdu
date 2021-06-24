@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xiaobubuya.edu.entity.vo.TeacherQuery;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * <p>
  * 讲师 服务类
@@ -18,4 +20,5 @@ import org.springframework.stereotype.Service;
 public interface TeacherService extends IService<Teacher> {
     void pageQuery(Page<Teacher> pageParam, TeacherQuery teacherQuery);
 
+    Map<String, Object> pageListWeb(Page<Teacher> pageParam);
 }
