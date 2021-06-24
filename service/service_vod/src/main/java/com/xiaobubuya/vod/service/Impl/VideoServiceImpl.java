@@ -11,12 +11,14 @@ import com.xiaobubuya.servicebase.exceptionHandler.GuliException;
 import com.xiaobubuya.vod.service.VideoService;
 import com.xiaobubuya.vod.utils.AliyunVodSDKUtils;
 import com.xiaobubuya.vod.utils.ConstantPropertiesUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class VideoServiceImpl implements VideoService {
@@ -78,4 +80,34 @@ public class VideoServiceImpl implements VideoService {
 			throw new GuliException(20001, "视频删除失败");
 		}
 	}
+
+
+	@Override
+	public void removeVideoList(List<String> videoIdList) {
+		try{
+			// 初始化对象
+			DefaultAcsClient client = AliyunVodSDKUtils.initVodClient(
+					ConstantPropertiesUtil.ACCESS_KEY_ID,
+					ConstantPropertiesUtil.ACCESS_KEY_SECRET);
+
+			// 创建删除视频request对象
+			DeleteVideoRequest request = new DeleteVideoRequest();
+
+			// videoList值转换为1，2，3
+			String videoIds = org.apache.commons.lang.StringUtils.join(videoIdList.toArray(),",");
+
+			// 向request设置视频id
+			request.setVideoIds(videoIds);
+
+			// 调用初始化对象的方法实现删除
+			DeleteVideoResponse response = client.getAcsResponse(request);
+
+			System.out.print("RequestId = " + response.getRequestId() + "\n");
+
+		}catch (ClientException | com.aliyuncs.exceptions.ClientException e){
+			throw new GuliException(20001, "视频删除失败");
+		}
+	}
+
+
 }

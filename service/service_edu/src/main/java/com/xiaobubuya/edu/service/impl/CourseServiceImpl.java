@@ -159,6 +159,11 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         //根据id删除所有章节
         chapterService.removeByCourseId(id);
 
+        //根据id删除所有课程详情
+        courseDescriptionService.removeById(id);
+
+        //删除封面 TODO
+
         Integer result = baseMapper.deleteById(id);
         return null != result && result > 0;
     }
