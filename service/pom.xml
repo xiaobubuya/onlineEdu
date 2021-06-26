@@ -18,6 +18,8 @@
         <module>service_cms</module>
         <module>service_msm</module>
         <module>service_ucenter</module>
+        <module>service_order</module>
+        <module>service_statistics</module>
     </modules>
 
     <properties>

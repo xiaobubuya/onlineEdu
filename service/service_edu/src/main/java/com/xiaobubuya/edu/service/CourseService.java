@@ -56,4 +56,5 @@ public interface CourseService extends IService<Course> {
      * @param id
      */
     void updatePageViewCount(String id);
+
 }

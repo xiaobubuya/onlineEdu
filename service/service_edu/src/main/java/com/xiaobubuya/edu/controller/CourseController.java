@@ -1,7 +1,9 @@
 package com.xiaobubuya.edu.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xiaobubuya.edu.client.OrderClient;
 import com.xiaobubuya.edu.entity.Course;
 import com.xiaobubuya.edu.entity.chapter.ChapterVo;
 import com.xiaobubuya.edu.entity.course.CourseQuery;
@@ -10,14 +12,18 @@ import com.xiaobubuya.edu.entity.video.CoursePublishVo;
 import com.xiaobubuya.edu.entity.vo.CourseInfoVo;
 import com.xiaobubuya.edu.service.ChapterService;
 import com.xiaobubuya.edu.service.CourseService;
+import com.xiaobubuya.edu.service.TeacherService;
+import com.xiaobubuya.utils.JwtUtils;
 import com.xiaobubuya.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -35,6 +41,12 @@ import java.util.List;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private TeacherService teacherService;
+
+    @Autowired
+    private OrderClient orderClient;
 
     @ApiOperation(value = "新增课程")
     @PostMapping("save-course-info")
@@ -134,7 +146,7 @@ public class CourseController {
     @GetMapping(value = "getCourseFront/{courseId}")
     public Result getCourseFront(
             @ApiParam(name = "courseId", value = "课程ID", required = true)
-            @PathVariable String courseId){
+            @PathVariable String courseId, HttpServletRequest request){
 
         //查询课程信息和讲师信息
         CourseWebVo courseWebVo = courseService.selectInfoWebById(courseId);
@@ -142,7 +154,31 @@ public class CourseController {
         //查询当前课程的章节信息
         List<ChapterVo> chapterVoList = chapterService.nestedList(courseId);
 
-        return Result.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList);
+        //远程调用，判断课程是否被购买
+        boolean buyCourse = orderClient.isBuyCourse(JwtUtils.getMemberIdByJwtToken(request), courseId);
+
+        return Result.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList).data("isbuyCourse",buyCourse);
+//        return Result.ok().data("course", courseWebVo).data("chapterVoList", chapterVoList);
     }
+
+    //根据课程id查询课程信息
+    @GetMapping("getCourse/{courseId}")
+    public com.xiaobubuya.servicebase.vo.CourseInfoCommon getCourseInfoDto(@PathVariable String courseId) {
+        Course course = courseService.getById(courseId);
+        String teacherName = teacherService.getById(course.getTeacherId()).getName();
+        com.xiaobubuya.servicebase.vo.CourseInfoCommon courseInfo = new com.xiaobubuya.servicebase.vo.CourseInfoCommon();
+        BeanUtils.copyProperties(course,courseInfo);
+        courseInfo.setTeacherName(teacherName);
+        return courseInfo;
+    }
+
+    @GetMapping("updateBuyNum/{courseId}")
+    public Result updateBuyNum(@PathVariable String courseId){
+        Course course = courseService.getById(courseId);
+        course.setBuyCount(course.getBuyCount() + 1);
+        courseService.updateById(course);
+        return Result.ok();
+    }
+
 }
 
