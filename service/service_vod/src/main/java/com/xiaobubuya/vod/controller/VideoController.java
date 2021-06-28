@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Api(tags="阿里云视频点播微服务")
-@CrossOrigin
 @RestController
 @RequestMapping("/vod/video")
 public class VideoController {

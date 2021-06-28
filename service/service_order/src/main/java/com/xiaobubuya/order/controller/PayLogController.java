@@ -19,7 +19,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/order/log")
-@CrossOrigin
 public class PayLogController {
 
     @Autowired

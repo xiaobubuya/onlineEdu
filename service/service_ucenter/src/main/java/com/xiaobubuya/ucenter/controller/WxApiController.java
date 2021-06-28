@@ -18,7 +18,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-@CrossOrigin
 @Controller//注意这里没有配置 @RestController
 @RequestMapping("/api/ucenter/wx")
 public class WxApiController {

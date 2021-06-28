@@ -22,7 +22,6 @@ import java.util.List;
  * @Modified By:
  */
 @RestController
-@CrossOrigin
 @RequestMapping("edu/indexFront")
 public class IndexFrontController {
     // 查询前八条热门课程，查询前四名名师

@@ -60,6 +60,7 @@ public class DailyServiceImpl extends ServiceImpl<DailyMapper, Daily> implements
         QueryWrapper<Daily> dayQueryWrapper = new QueryWrapper<>();
         dayQueryWrapper.select(type, "date_calculated");
         dayQueryWrapper.between("date_calculated", begin, end);
+        dayQueryWrapper.orderByAsc("date_calculated");
 
         List<Daily> dayList = baseMapper.selectList(dayQueryWrapper);
 

@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/order")
-@CrossOrigin
 public class TOrderController {
 
     @Autowired

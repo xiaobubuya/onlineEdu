@@ -32,7 +32,6 @@ public class TeacherController {
      * 1、查询所有讲师
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "所有讲师列表")
     @GetMapping("findAll")
     public Result list(){
@@ -45,7 +44,6 @@ public class TeacherController {
      * @param id
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "讲师逻辑删除")
     @DeleteMapping("deleteTeacher/{id}")
     public Result removeById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id){
@@ -61,7 +59,6 @@ public class TeacherController {
      * @param teacherQuery
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "分页讲师列表")
     @PostMapping("pageTeacherCondition/{page}/{limit}")
     public Result pageQuery(
@@ -89,7 +86,6 @@ public class TeacherController {
      * @param teacher
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "新增讲师")
     @PostMapping("/addTeacher")
     public Result save(
@@ -104,7 +100,6 @@ public class TeacherController {
      * @param id
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "根据ID查询讲师")
     @GetMapping("findById/{id}")
     public Result getById(
@@ -121,7 +116,6 @@ public class TeacherController {
      * @param teacher
      * @return
      */
-    @CrossOrigin
     @ApiOperation(value = "根据ID修改讲师")
     @PutMapping("/updateTeacher/{id}")
     public Result updateById(

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags="阿里云文件管理")
-@CrossOrigin
 @RestController
 @RequestMapping("/oss/file/")
 public class FileController {

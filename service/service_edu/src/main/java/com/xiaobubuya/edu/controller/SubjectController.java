@@ -22,7 +22,6 @@ import java.util.List;
  * @since 2021-06-16
  */
 @Api(tags="课程分类管理")
-@CrossOrigin
 @RestController
 @RequestMapping("/edu/subject")
 public class SubjectController {

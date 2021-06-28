@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
  */
 @RequestMapping("/msm")
 @RestController
-@CrossOrigin
 public class MsmController {
     @Autowired
     private MsmService msmService;

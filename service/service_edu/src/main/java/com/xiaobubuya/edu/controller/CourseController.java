@@ -35,7 +35,6 @@ import java.util.List;
  * @since 2021-06-17
  */
 @Api(tags="课程管理")
-@CrossOrigin
 @RestController
 @RequestMapping("/edu/course")
 public class CourseController {
