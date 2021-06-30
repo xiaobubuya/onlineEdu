@@ -36,12 +36,12 @@ public class IndexFrontController {
     public Result index(){
         QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("id");
-        queryWrapper.last("limit 8");
+        queryWrapper.last("LIMIT 8");
         List<Course> CourseList = courseService.list(queryWrapper);
 
         QueryWrapper<Teacher> teacherWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc("id");
-        queryWrapper.last("limit 2");
+        teacherWrapper.orderByDesc("id");
+        teacherWrapper.last("LIMIT 8");
         List<Teacher> teacherList = teacherService.list(teacherWrapper);
         return Result.ok().data("courseList",CourseList).data("teacherList",teacherList);
     }

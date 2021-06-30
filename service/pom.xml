@@ -20,6 +20,7 @@
         <module>service_ucenter</module>
         <module>service_order</module>
         <module>service_statistics</module>
+        <module>service_acl</module>
     </modules>
 
     <properties>
@@ -28,6 +29,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.xiaobubuya</groupId>
             <artifactId>service_base</artifactId>
