@@ -68,7 +68,7 @@ public class MsmServiceImpl implements MsmService {
 
     // 发送邮箱
     @Override
-    public boolean sendEmailCode(String email, Map<String, Object> param) {
+    public boolean sendEmailCode(String email, String code) {
         try {
             //创建Properties 类用于记录邮箱的一些属性
             final Properties props = new Properties();
@@ -111,7 +111,7 @@ public class MsmServiceImpl implements MsmService {
 
             //html文件
             StringBuilder sb = new StringBuilder();
-            sb.append("<h1>小不不学院验证码</h1>"+"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+"你好：</p>"+"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你的验证码是"+ param.get("code") +"你可凭此验证码登录。</p>"+"<h3>小不不学院发</h3>");
+            sb.append("<h1>小不不学院验证码</h1>"+"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+"你好：</p>"+"<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;你的验证码是"+ code +"你可凭此验证码登录。</p>"+"<h3>小不不学院发</h3>");
             //设置邮件的内容体
             message.setContent(sb.toString(), "text/html;charset=UTF-8");
 

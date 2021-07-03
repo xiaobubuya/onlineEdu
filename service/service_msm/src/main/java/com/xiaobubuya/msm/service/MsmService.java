@@ -11,5 +11,5 @@ import java.util.Map;
 public interface MsmService {
     boolean send(String phone, String sms_180051135, Map<String, Object> param);
 
-    boolean sendEmailCode(String email, Map<String, Object> param);
+    boolean sendEmailCode(String email, String code);
 }
